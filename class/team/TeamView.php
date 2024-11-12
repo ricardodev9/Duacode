@@ -141,15 +141,7 @@ class TeamView
         </html>
     <?php
     }
-    // Mostrar mensaje de éxito o error
-    public function renderMessage($status, $msg)
-    {
-        if ($status === 'success') {
-            echo "<div class='alert alert-success'>$msg</div>";
-        } else {
-            echo "<div class='alert alert-danger'>$msg</div>";
-        }
-    }
+
     // Método para renderizar un solo Equipo
     public function renderSingleTeam($team)
     {
