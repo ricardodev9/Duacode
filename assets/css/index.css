@@ -1,6 +1,7 @@
-body {
+body, html {
     background-color: #f4f6f9;
     padding-top: 20px;
+    height: 100%;
 }
 .table-wrapper {
     max-width: 1000px;
