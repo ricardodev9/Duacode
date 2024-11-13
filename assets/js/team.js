@@ -20,7 +20,7 @@ $(document).ready(function () {
         // Validar Team Name
         if ($teamNameInput.val().trim() === "") {
             valid = false;
-            errorMessages.push("Team Name is required.");
+            errorMessages.push("El nombre del equipo es requerido.");
             $teamNameInput.addClass("is-invalid");
         } else {
             $teamNameInput.removeClass("is-invalid");
@@ -29,7 +29,7 @@ $(document).ready(function () {
         // Validar Foundation Date
         if ($teamFoundationDateInput.val().trim() === "") {
             valid = false;
-            errorMessages.push("Foundation Date is required.");
+            errorMessages.push("La fecha de fundación es requerida.");
             $teamFoundationDateInput.addClass("is-invalid");
         } else {
             $teamFoundationDateInput.removeClass("is-invalid");
