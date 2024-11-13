@@ -50,6 +50,9 @@ $(document).ready(function () {
         const formData = {
             method: 'update_player',
             playerId: playerId,
+            name: $playerNameEdit.val(),
+            number : $playerNumberEdit.val(),
+            team : $playerTeamEdit.val(),
             is_captain: $('#isCaptain').is(':checked') ? 1 : 0
         };
         if (validateFormEdit()) {
