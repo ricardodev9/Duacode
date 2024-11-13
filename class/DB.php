@@ -2,9 +2,9 @@
 
 class Database {
     private $host = 'localhost';
-    private $dbname = 'sports_management';  // Cambia el nombre de la base de datos si es necesario
-    private $username = 'root';  // Cambia el usuario si es necesario
-    private $password = '';  // Cambia la contraseña si es necesario
+    private $dbname = 'sports_management';  
+    private $username = 'root'; 
+    private $password = ''; 
     public $conn;
 
     public function connect() {
