@@ -1,9 +1,8 @@
 <?php
-// Incluir autoloader si no se ha incluido ya en index.php o en otros archivos
-require_once __DIR__ . '/../autoload.php'; 
-require_once __DIR__ . '/../config.php';  
+require_once __DIR__ . '/../autoload.php';
+require_once __DIR__ . '/../config.php';
 
-// Verificar si la solicitud es de tipo POST y si el parámetro 'method' es 'add_team'
+// Añadir equipo
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['method']) && $_POST['method'] === 'add_team') {
     // Obtener los datos enviados por AJAX
     $teamName = $_POST['teamName'];
@@ -14,21 +13,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['method']) && $_POST['
     // Verificar que los datos necesarios han sido enviados
     if (!empty($teamName) && !empty($teamCity) && !empty($teamSport) && !empty($teamFoundationDate)) {
         // Instanciar el controlador y el modelo dentro de la función
-        $teamController = new TeamController($teamModel,$teamView);  // Instancia de TeamController
-
+        $teamController = new TeamController($teamModel, $teamView); 
         //Llamar al método del controlador para agregar el equipo
-        $response = $teamController->addTeamFromAjax($_POST); 
-        // Verificar si la respuesta es exitosa
-        if ($response['status'] === 'success') {
-            echo json_encode(['status' => 'success', 'msg' => 'Equipo añadido con éxito']);
-        } else {
-            echo json_encode(['status' => 'error', 'msg' => $response['msg']]);
-        }
+        $response = $teamController->addTeamFromAjax($_POST);
+        exit;
     } else {
-        // Si falta algún campo, devolver un error
         echo json_encode(['status' => 'error', 'msg' => 'All fields are required']);
     }
-
+    
     exit;
 }
+
+// Actualizar jugador
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['method']) && $_POST['method'] === 'update_player') {
+    // Sanitizar y validar datos recibidos
+    $playerId = $_POST['playerId'];
+    $name = $_POST['name'];
+    $number = trim($_POST['number']);
+    $team = $_POST['team'];
+    $is_captain = $_POST['is_captain'];
+
+    // Validar los campos y devolver error si están vacíos
+    if (empty($name) || empty($number) || empty($team)) {
+        echo json_encode(['status' => 'error', 'msg' => 'Todos los campos son obligatorios.']);
+        exit;
+    }
+    
+    //Llamar al método del controlador para actualizar el equipo
+    $updated = $playerController->updatePlayer($playerId, $name, $number, $team, $is_captain);
+    exit;
+}
+
+// Eliminar jugador
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['method']) && $_POST['method'] === 'delete_player' && isset($_POST['playerId'])) {
+    // Sanitizar y validar datos recibidos
+    $playerId = $_POST['playerId'];
+    $result = $playerController->deletePlayer($playerId);
+    exit;
+}
+
+// Añadir jugador
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['method']) && $_POST['method'] === 'add_player') {
+    // Recoger los datos del formulario
+    $name = $_POST['name'];
+    $number = $_POST['number'];
+    $team = $_POST['team'];
+    $captain = $_POST['captain'];
+
+    //Llamar al método del controlador para agregar el player
+    $result = $playerController->addPlayer($name, $number, $team, $captain);
+    exit;
+}
+
 ?>
