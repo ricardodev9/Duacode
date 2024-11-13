@@ -9,6 +9,7 @@ class TeamView
         // Incluir CSS
         echo '<link rel="stylesheet" href="assets/css/index.css">';
         echo '<link rel="stylesheet" href="assets/css/navbar.css">';
+        echo '<link rel="stylesheet" href="assets/css/footer.css">';
         // Incluir Bootstrap 5 y otras dependencias
         echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
         echo '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">';
@@ -25,7 +26,7 @@ class TeamView
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Teams List</title>
+            <title>Duacode</title>
             <?php $this->includeAssets(); ?> <!-- Incluir CSS y scripts -->
         </head>
 
@@ -48,22 +49,22 @@ class TeamView
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addTeamModalLabel">Add New Team</h5>
+                            <h5 class="modal-title" id="addTeamModalLabel">Añadir nuevo equipo</h5>
                             <button type="button" class="btn-close" id="closeModalBtn" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Formulario para añadir un equipo -->
                             <form id="teamForm">
                                 <div class="mb-3">
-                                    <label for="teamName" class="form-label">Team Name</label>
+                                    <label for="teamName" class="form-label">Nombre del equipo</label>
                                     <input type="text" class="form-control" id="teamName" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="teamCity" class="form-label">City</label>
+                                    <label for="teamCity" class="form-label">Ciudad</label>
                                     <input type="text" class="form-control" id="teamCity" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="teamSport" class="form-label">Sport</label>
+                                    <label for="teamSport" class="form-label">Deporte</label>
                                     <select class="form-select" id="teamSport" required>
                                         <option selected>Football</option>
                                         <option>Basketball</option>
@@ -93,7 +94,7 @@ class TeamView
         ?>
             <div class="container">
                 <div class="table-wrapper">
-                    <h2 class="text-center my-4">Teams List</h2>
+                    <h2 class="text-center my-4">Lista de equipos</h2>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -112,8 +113,7 @@ class TeamView
                                     <td><?= $team['sport'] ?></td>
                                     <td><?= $team['foundation_date'] ?></td>
                                     <td class="action-btns">
-                                        <a href="index.php?team=<?=$team['id']?>"><i class="bi bi-eye-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i></a>
-                                        <i class="bi bi-trash delete" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"></i>
+                                        <a href="index.php?team=<?= $team['id'] ?>"><i class="bi bi-eye-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -127,6 +127,45 @@ class TeamView
         <?php
     }
 
+    // Método para renderizar un solo Equipo
+    public function renderSingleTeam($team, $captains = null)
+    {
+    ?>
+        <div class="container">
+            <div class="table-wrapper">
+                <div class="single-team-view container">
+                    <h2 class="text-center my-4">Detalles del del equipo</h2>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><?= htmlspecialchars($team['name']); ?></h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Ciudad:</strong> <?= htmlspecialchars($team['city']); ?></p>
+                            <p><strong>Deporte:</strong> <?= htmlspecialchars($team['sport']); ?></p>
+                            <p><strong>Fecha de fundación:</strong> <?= htmlspecialchars($team['foundation_date']); ?></p>
+                            <p><strong>Capitanes: </strong></p>
+
+                            <?php if ($captains && count($captains) > 0):
+                            ?> <ul><?php
+                                        foreach ($captains as $captains):
+                                        ?>
+                                        <li><?= $captains['name'] ?></li>
+                                    <?php
+                                        endforeach;
+                                    ?>
+                                </ul>
+                            <?php
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+                    <a href="index.php" class="btn btn-secondary mt-3">Ver equipos</a>
+                </div>
+            </div>
+        </div>
+<?php
+    }
+
     // Renderizar el pie de página y scripts
     public function renderFooter()
     {
@@ -137,46 +176,23 @@ class TeamView
             <!-- JS personalizado para la gestión de Teams -->
             <script src="assets/js/team.js"></script>
         </body>
-
         </html>
     <?php
     }
-
-    // Método para renderizar un solo Equipo
-    public function renderSingleTeam($team)
-    {
-    ?>
-        <div class="container">
-            <div class="table-wrapper">
-
-                <div class="single-team-view container">
-                    <h2 class="text-center my-4">Team Details</h2>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3><?= htmlspecialchars($team['name']); ?></h3>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Ciudad:</strong> <?= htmlspecialchars($team['city']); ?></p>
-                            <p><strong>Deporte:</strong> <?= htmlspecialchars($team['sport']); ?></p>
-                            <p><strong>Fecha de fundación:</strong> <?= htmlspecialchars($team['foundation_date']); ?></p>
-                        </div>
-                    </div>
-                    <a href="index.php" class="btn btn-secondary mt-3">Back to Teams List</a>
-                </div>
-            </div>
-        </div>
-<?php
-    }
-
-    // Método para renderizar toda la página (incluye todos los componentes)
-    public function render($teams, $type)
+    
+    // Método para renderizar toda la página
+    public function render($teams, $type, $captains = null)
     {
         $this->renderHeader();
         $this->includeNavbar();
         if ($type == "getAllTeams") {
             $this->renderTeamList($teams);
         } else if ($type == "getTeamById") {
-            $this->renderSingleTeam($teams);
+            if ($captains) {
+                $this->renderSingleTeam($teams, $captains);
+            } else {
+                $this->renderSingleTeam($teams);
+            }
         }
         $this->renderAddTeamForm();
         $this->renderFooter();
