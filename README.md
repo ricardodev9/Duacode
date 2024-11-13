@@ -18,6 +18,7 @@ El sistema permite agregar, editar y eliminar jugadores. Cada equipo tiene capit
 
 - PHP
 - MySQL
+- Javascript
 - jQuery
 - Bootstrap (para el diseño de la interfaz)
 - AJAX (para las actualizaciones sin recargar la página)
