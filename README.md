@@ -22,27 +22,5 @@ El sistema permite agregar, editar y eliminar jugadores. Cada equipo tiene capit
 - Bootstrap (para el diseño de la interfaz)
 - AJAX (para las actualizaciones sin recargar la página)
 
-## Estructura del Proyecto
 
-├── assets/
-│   ├── css/               # Archivos de estilo (CSS)
-│   ├── js/                # Archivos de script (JavaScript y jQuery)
-│   
-├── class/
-│   ├── player/            # Lógica relacionada con los jugadores
-│   │   ├── PlayerModel.php
-│   │   ├── PlayerView.php
-│   │   └── PlayerController.php
-│   ├── team/              # Lógica relacionada con los equipos
-│   │   ├── TeamModel.php
-│   │   ├── TeamView.php
-│   │   └── TeamController.php
-├── inc/
-│   └── functions.php      # Funciones de utilidad para el sistema
-├── resources/
-│   └── navbar.php      # Navbar
-├── index.php              # Página principal del sistema
-├── autoload.php              # Para cargar los archivos necesarios
-├── config.php              # Inicializar las instancias del proyecto
-└── README.md              # Este archivo
 
