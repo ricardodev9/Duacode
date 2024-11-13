@@ -3,6 +3,7 @@
 class TeamModel {
     private $db;
     private $table = 'teams';
+
     // Constructor que recibe la conexión a la base de datos
     public function __construct($db) {
         $this->db = $db;
@@ -12,33 +13,25 @@ class TeamModel {
     public function getAllTeams() {
         // SQL para obtener todos los equipos
         $query = "SELECT * FROM " .$this->table; 
-        
         // Preparar y ejecutar la consulta para evitar inyecciones
         $stmt = $this->db->prepare($query);
         $stmt->execute();
 
-        // Devolver los resultados como un array asociativo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Método para obtener todos los equipos desde la base de datos
+    // Método para obtener el equipo a través del ID 
     // En entornos de producción se deberá pasar un uuid en lugar de un id
-
     public function getTeamById($id) {
         // SQL para obtener un equipo específico utilizando un id
         $query = "SELECT * FROM " . $this->table . " WHERE id = :id"; 
         
         // Preparar la consulta
         $stmt = $this->db->prepare($query);
-        
-        // Enlazar el parámetro :id para evitar inyecciones SQL
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);  // O PDO::PARAM_STR si el id es un UUID
-        
-        // Ejecutar la consulta
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT); 
         $stmt->execute();
 
-        // Devolver el resultado como un array asociativo (solo un equipo, no fetchAll)
-        return $stmt->fetch(PDO::FETCH_ASSOC);  // Cambiar a fetch para obtener un solo resultado
+        return $stmt->fetch(PDO::FETCH_ASSOC); 
     }
 
 
@@ -67,6 +60,24 @@ class TeamModel {
         } catch (PDOException $e) {
             return ['status' => 'error', 'msg' => 'Error al agregar el Equipo: ' . $e->getMessage()]; 
         }
+    }
+    
+    // Método para obtener todos los capitanes
+    public function getCaptainsDB($teamId)
+    {
+        // Preparar la consulta SQL para seleccionar todos los jugadores que son capitanes
+        $query = "SELECT id, name, number, team_id FROM players WHERE team_id = :teamId AND is_captain = 1 ";
+        // Preparar la consulta
+        $stmt = $this->db->prepare($query);
+
+        // Asignar los parámetros
+        $stmt->bindParam(':teamId', $teamId);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
+        // Obtener todos los resultados
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);   
     }
 }
 
